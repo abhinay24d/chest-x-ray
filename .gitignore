@@ -1,0 +1,27 @@
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Datasets
+datasets/
+chest_xray/
+Dataset of Tuberculosis Chest X-rays Images/
+
+# Temporary prediction folders
+predictions/
+
+# Python caching & artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# User uploads in WebApp
+AI_Chest_Xray_WebApp/static/uploads/*
+!AI_Chest_Xray_WebApp/static/uploads/.gitkeep

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chest X-Ray AI - Powered Multi-Disease Disease Detection System</title>
+    <meta name="description" content="State-of-the-art AI diagnostics tool analyzing chest X-rays to detect Normal lungs, Pneumonia, and Tuberculosis in seconds.">
+    <!-- Stylesheet using Flask static routing -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- 1. Sticky Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand">
+                <!-- Lung Brand Icon -->
+                <svg viewBox="0 0 32 32">
+                    <path d="M16 4v10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M16 12c-2 2-5 3-7 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M16 12c2 2 5 3 7 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M14 11c-2-1-5-1-7 1S4 18 5 22s4 5 7 5 3-4 3-8v-8z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+                    <path d="M18 11c2-1 5-1 7 1s3 6 2 10-4 5-7 5-3-4-3-8v-8z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+                </svg>
+                <span>Chest X-Ray AI</span>
+            </a>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#" class="nav-link">Home</a></li>
+                <li><a href="#diseases" class="nav-link">Disease Information</a></li>
+            </ul>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                &#9776;
+            </button>
+        </div>
+    </nav>
+
+    <!-- 2. Hero Section -->
+    <header class="hero">
+        <!-- Floating clinical decoration elements -->
+        <div class="floating-plus p1">+</div>
+        <div class="floating-plus p2">+</div>
+        <div class="floating-plus p3">+</div>
+        <div class="floating-plus p4">+</div>
+        
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <span class="badge badge-primary">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 8v8M8 12h8"></path>
+                    </svg>
+                    Next-Gen Medical AI
+                </span>
+                <h1 class="hero-title">AI Powered Multi-Disease <span>Chest X-Ray Detection</span></h1>
+                <p class="hero-subtitle">
+                    Upload a chest X-ray image and our advanced machine learning model detects Normal lungs, Pneumonia, and Tuberculosis within seconds.
+                </p>
+                <div class="hero-cta">
+                    <a href="#analyzer" class="btn btn-primary">Try AI Detection</a>
+                </div>
+            </div>
+            
+            <!-- Graphic AI Lungs Scanning Model -->
+            <div class="hero-illustration">
+                <div class="digital-lungs-wrapper">
+                    <!-- Scanner Laser Overlay -->
+                    <div class="hero-scan-line"></div>
+                    <!-- Heartbeat ECG Graphic -->
+                    <svg viewBox="0 0 100 30" class="heartbeat-line">
+                        <path d="M0 15 h30 l3 -8 l4 20 l4 -25 l3 17 l2 -4 h54" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <!-- Lung Outline SVG -->
+                    <svg class="lungs-svg" viewBox="0 0 64 64" fill="none" stroke="currentColor">
+                        <path d="M32 8v16M32 24c-4 3-12 5-16 9M32 24c4 3 12 5 16 9" stroke-width="2"/>
+                        <path d="M29 23c-5-2-14-2-18 2s-4 14-2 22 9 10 15 10 6-8 6-16v-18z" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M35 23c5-2 14-2 18 2s4 14 2 22-9 10-15 10-6-8-6-16v-18z" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M16 33c-2 3-4 4-6 6M16 33c2 3 3 5 3 8M48 33c2 3 4 4 6 6M48 33c-2 3-3 5-3 8" stroke-width="1" opacity="0.6"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+
+    <!-- 4. Main AI Detection Workspace Section -->
+    <section class="section-padding workspace-section" id="analyzer">
+        <div class="container">
+            <div class="section-title-wrapper">
+                <span class="section-pretitle">Diagnostic Hub</span>
+                <h2 class="section-title">Chest X-Ray Disease Analyzer</h2>
+            </div>
+            
+            <div class="workspace-grid">
+                
+                <!-- LEFT PANEL: X-Ray File Upload & Image View -->
+                <div class="glass-card panel-upload">
+                    <h3 class="panel-title">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"/>
+                        </svg>
+                        Upload Chest X-Ray
+                    </h3>
+                    
+                    <!-- Drag & Drop container area -->
+                    <div class="dropzone-container" id="dropzone">
+                        <input type="file" id="fileInput" class="file-input" accept="image/png, image/jpeg, image/jpg">
+                        
+                        <!-- Default state layout -->
+                        <div id="uploadPrompt" class="upload-prompt">
+                            <!-- Cloud Upload Vector -->
+                            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                            <p class="upload-text-main">Drag and drop your X-ray image here</p>
+                            <p class="upload-text-sub">or click to browse device</p>
+                            <span class="badge badge-primary">Supports: JPG, JPEG, PNG</span>
+                        </div>
+                        
+                        <!-- Active Image Preview Container -->
+                        <div id="previewContainer" class="preview-container" style="display: none;">
+                            <img id="previewImage" class="preview-image" src="" alt="Uploaded Chest X-Ray">
+                            
+                            <!-- Scanner Line Overlay -->
+                            <div id="analysisScan" class="analysis-scan-overlay"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Upload Metadata Row -->
+                    <div id="uploadedInfo" class="uploaded-info-bar" style="display: none;">
+                        <div class="file-meta">
+                            <span class="file-meta-name" id="fileName">patient_xray.png</span>
+                            <span class="file-meta-size" id="fileSize">1.2 MB</span>
+                        </div>
+                        <button class="change-file-btn" id="changeFileBtn">Remove</button>
+                    </div>
+                    
+                    <!-- Analyze CTA -->
+                    <div class="action-bar">
+                        <button class="btn btn-primary" id="analyzeBtn" style="width: 100%;" disabled>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="analyzeBtnIcon">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                <line x1="11" y1="8" x2="11" y2="14"></line>
+                                <line x1="8" y1="11" x2="14" y2="11"></line>
+                            </svg>
+                            <span id="analyzeBtnText">Analyze X-Ray</span>
+                        </button>
+                    </div>
+
+                    <!-- Step Ticker Logs during prediction simulation -->
+                    <div class="progress-log" id="progressLog">
+                        <span>Ready to ingest clinical scan data...</span>
+                    </div>
+                </div>
+                
+                <!-- RIGHT PANEL: AI Analysis results -->
+                <div class="glass-card panel-results">
+                    <!-- Default State: Waiting -->
+                    <div id="resultsWaiting" class="results-waiting">
+                        <svg class="waiting-pulse-icon" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 10h3l-4 4-4-4h3V8h2v4z"/>
+                        </svg>
+                        <h3>Waiting for X-Ray Upload</h3>
+                        <p style="font-size: 0.85rem; max-width: 280px; margin-top: 0.5rem; text-align: center; color: var(--text-muted);">
+                            Upload a scan to initiate AI pathology analysis.
+                        </p>
+                    </div>
+                    
+                    <!-- Result Report State -->
+                    <div id="resultsCard" class="results-card" style="display: none;">
+                        <div class="results-header">
+                            <h3>Diagnostic Report</h3>
+                            <span class="badge" id="severityBadge">Healthy</span>
+                        </div>
+                        
+                        <!-- Diagnosis Output -->
+                        <div class="detected-disease-display" id="diseaseDisplay">
+                            <p class="detected-label">Detected Pathology</p>
+                            <h2 class="detected-value">
+                                <span id="detectedDisease">NORMAL</span>
+                            </h2>
+                        </div>
+                        
+                        <!-- Bar Progress Confidence Distribution -->
+                        <div class="confidence-container">
+                            <!-- Normal -->
+                            <div class="confidence-row">
+                                <div class="confidence-labels">
+                                    <span class="confidence-name">Normal Lungs</span>
+                                    <span class="confidence-percent" id="pctNormal">0%</span>
+                                </div>
+                                <div class="progress-track">
+                                    <div class="progress-fill normal" id="barNormal"></div>
+                                </div>
+                            </div>
+                            <!-- Pneumonia -->
+                            <div class="confidence-row">
+                                <div class="confidence-labels">
+                                    <span class="confidence-name">Pneumonia</span>
+                                    <span class="confidence-percent" id="pctPneumonia">0%</span>
+                                </div>
+                                <div class="progress-track">
+                                    <div class="progress-fill pneumonia" id="barPneumonia"></div>
+                                </div>
+                            </div>
+                            <!-- Tuberculosis -->
+                            <div class="confidence-row">
+                                <div class="confidence-labels">
+                                    <span class="confidence-name">Tuberculosis (TB)</span>
+                                    <span class="confidence-percent" id="pctTB">0%</span>
+                                </div>
+                                <div class="progress-track">
+                                    <div class="progress-fill tb" id="barTB"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Medical Disclaimer -->
+                        <div class="disclaimer-card">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                            </svg>
+                            <div class="disclaimer-text">
+                                <strong>Medical Disclaimer:</strong> AI predictions are performed by a trained Random Forest model and should not be used as clinical diagnostic advice or substitute expert professional medical opinion.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Disease Information Section -->
+    <section class="section-padding disease-section" id="diseases">
+        <div class="container">
+            <div class="section-title-wrapper">
+                <span class="section-pretitle">Medical Catalog</span>
+                <h2 class="section-title">Understanding Pulmonary Conditions</h2>
+            </div>
+            
+            <div class="disease-grid">
+                
+                <!-- Card: Normal -->
+                <div class="glass-card disease-card card-normal" id="disease-normal">
+                    <div class="disease-icon-circle">
+                        <!-- Shield/Heart SVG -->
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="M9 11l2 2 4-4" stroke="white" stroke-width="2.5" fill="none"/>
+                        </svg>
+                    </div>
+                    <h3>Healthy Lungs (Normal)</h3>
+                    <p class="disease-desc">
+                        A normal chest radiograph displays clear black lung zones representing fully inflated, healthy air-filled alveoli, with no opacities, consolidations, or suspicious tissue cavities.
+                    </p>
+                    <div class="symptoms-box">
+                        <p class="symptoms-title">Expected Indicators</p>
+                        <ul class="symptoms-list">
+                            <li>Clear Airway</li>
+                            <li>Normal Respiration</li>
+                            <li>Full Expansion</li>
+                            <li>No Congestion</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Card: Pneumonia -->
+                <div class="glass-card disease-card card-pneumonia" id="disease-pneumonia">
+                    <div class="disease-icon-circle">
+                        <!-- Infection SVG -->
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                        </svg>
+                    </div>
+                    <h3>Pneumonia Infection</h3>
+                    <p class="disease-desc">
+                        An inflammatory condition of the lung parenchyma, where alveoli fill with fluid or pus. Radiographs show localized or diffuse cloudy white patches, known as consolidations.
+                    </p>
+                    <div class="symptoms-box">
+                        <p class="symptoms-title">Key Symptoms</p>
+                        <ul class="symptoms-list">
+                            <li>High Fever</li>
+                            <li>Sharp Chest Pain</li>
+                            <li>Productive Cough</li>
+                            <li>Short Breath</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Card: Tuberculosis -->
+                <div class="glass-card disease-card card-tb" id="disease-tb">
+                    <div class="disease-icon-circle">
+                        <!-- TB Awareness SVG -->
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm0-8h-2V7h2v2zm4 8h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                        </svg>
+                    </div>
+                    <h3>Tuberculosis (TB)</h3>
+                    <p class="disease-desc">
+                        A highly contagious bacterial infection caused by Mycobacterium tuberculosis. Radiographic markers include upper lobe dense nodules, scar tissues, and fibrous cavitary lesions.
+                    </p>
+                    <div class="symptoms-box">
+                        <p class="symptoms-title">Key Symptoms</p>
+                        <ul class="symptoms-list">
+                            <li>Bloody Cough</li>
+                            <li>Night Sweats</li>
+                            <li>Weight Loss</li>
+                            <li>Fatigue</li>
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+    <!-- 9. Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="#" class="footer-logo">
+                        <svg viewBox="0 0 32 32">
+                            <path d="M16 4v10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M16 12c-2 2-5 3-7 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M16 12c2 2 5 3 7 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M14 11c-2-1-5-1-7 1S4 18 5 22s4 5 7 5 3-4 3-8v-8z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+                            <path d="M18 11c2-1 5-1 7 1s3 6 2 10-4 5-7 5-3-4-3-8v-8z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+                        </svg>
+                        <span>Chest X-Ray AI</span>
+                    </a>
+                    <p class="footer-desc">
+                        Deploying state-of-the-art Deep Learning models to provide rapid, reliable pulmonary diagnostic screening.
+                    </p>
+                </div>
+                
+                <div class="footer-links-col">
+                    <h5>Quick Navigation</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#diseases">Disease Database</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links-col">
+                    <h5>Connect With Us</h5>
+                    <p class="footer-desc" style="margin-bottom: 0.75rem;">Follow our updates or review our repository.</p>
+                    <div class="footer-socials">
+                        <!-- Github -->
+                        <a href="https://github.com" class="social-icon" target="_blank" aria-label="GitHub">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                        <!-- LinkedIn -->
+                        <a href="https://linkedin.com" class="social-icon" target="_blank" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                        </a>
+                        <!-- Email -->
+                        <a href="mailto:info@chestxray.ai" class="social-icon" aria-label="Email">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 12.713l-11.985-9.713h23.97l-11.985 9.713zm0 2.574l-12-9.725v12.438h24v-12.438l-12 9.725z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 AI Chest X-Ray Disease Detection System. All Rights Reserved.</p>
+                <p>Built with AI & Machine Learning for clinical evaluation.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script file using Flask static routing -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
