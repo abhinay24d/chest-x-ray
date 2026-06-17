@@ -15,6 +15,9 @@ from PIL import Image
 from flask import Flask, request, jsonify, render_template
 from werkzeug.utils import secure_filename
 
+# Import shared preprocessing pipeline
+from preprocessing import extract_features
+
 app = Flask(__name__)
 
 # Config uploads folder and valid formats
@@ -89,12 +92,10 @@ def predict():
         # Save file to upload directory
         file.save(filepath)
 
-        # 3. Preprocess the image exactly like the training pipeline
+        # 3. Preprocess the image exactly like the training pipeline (CLAHE + HOG + LBP)
         try:
-            img = Image.open(filepath)
-            img = img.convert("L")  # Grayscale conversion
-            img = img.resize((64, 64))  # Resize to 64x64
-            x = np.array(img).flatten().reshape(1, -1)  # Flatten to shape (1, 4096)
+            features = extract_features(filepath)
+            x = features.reshape(1, -1)
         except Exception as img_err:
             # Clean up saved image if preprocessing fails
             if os.path.exists(filepath):

@@ -1,10 +1,15 @@
 import os
+import sys
 import joblib
 import numpy as np
 from PIL import Image
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
+
+# Add WebApp path to import shared preprocessing module
+sys.path.append("AI_Chest_Xray_WebApp")
+from preprocessing import extract_features
 
 def load_images_from_folder(folder_path, label):
     X_local = []
@@ -23,16 +28,11 @@ def load_images_from_folder(folder_path, label):
         
         image_path = os.path.join(folder_path, filename)
         try:
-            img = Image.open(image_path)
-            img = img.convert("L")  # Grayscale
-            img = img.resize((64, 64))  # Resize
-            img_array = np.array(img)
-            
-            # Verify the shape is indeed 64x64 (4096 elements)
-            if img_array.shape == (64, 64):
-                X_local.append(img_array.flatten())
-                y_local.append(label)
-                count += 1
+            # Extract features using shared preprocessing pipeline (CLAHE + HOG + LBP)
+            features = extract_features(image_path)
+            X_local.append(features)
+            y_local.append(label)
+            count += 1
         except Exception as e:
             # Skip corrupted/unreadable images
             pass
