@@ -14,9 +14,8 @@ from skimage.exposure import equalize_adapthist
 
 def extract_features(img_or_path):
     """
-    Extracts CLAHE + HOG + LBP features from a chest X-ray image.
-    
-
+    Extracts CLAHE + HOG + LBP features from a chest X-ray image with
+    automatic border cropping and Gaussian noise reduction for web image robustness.
     
     Parameters:
         img_or_path (str or PIL.Image.Image): Filepath or loaded PIL Image object.
@@ -30,20 +29,38 @@ def extract_features(img_or_path):
     else:
         img = img_or_path
         
-    # 2. Standardize color channel to Grayscale & resize to 128x128
+    # Convert color channel to Grayscale
     img = img.convert("L")
+    img_raw_array = np.array(img)
+    
+    # 2. Auto-crop black borders
+    # Find pixels where intensity is above a threshold (e.g. 10/255)
+    row_sums = np.mean(img_raw_array, axis=1)
+    col_sums = np.mean(img_raw_array, axis=0)
+    rows = np.where(row_sums > 10)[0]
+    cols = np.where(col_sums > 10)[0]
+    
+    if len(rows) > 0 and len(cols) > 0:
+        # Crop the PIL image to exclude solid black boundaries
+        img = img.crop((cols[0], rows[0], cols[-1] + 1, rows[-1] + 1))
+        
+    # 3. Resize to standardized 128x128 grid
     img = img.resize((128, 128))
     img_array = np.array(img)
     
-    # 3. Standardize Contrast using CLAHE
+    # 4. Standardize Contrast using CLAHE
     # equalize_adapthist expects a float array in [0, 1] range
     img_float = img_array / 255.0
     img_equalized = equalize_adapthist(img_float, clip_limit=0.03)
     
-    # Convert back to uint8 for robust feature calculation (required by LBP)
-    img_equalized_uint8 = (img_equalized * 255.0).astype(np.uint8)
+    # 5. Apply Gaussian Denoising to smooth out JPEG compression artifacts
+    from skimage.filters import gaussian
+    img_denoised = gaussian(img_equalized, sigma=1.0)
     
-    # 4. Extract shape/edge features using HOG
+    # Convert back to uint8 for LBP and HOG
+    img_equalized_uint8 = (img_denoised * 255.0).astype(np.uint8)
+    
+    # 6. Extract shape/edge features using HOG
     # Using 8 orientations, 16x16 pixels per cell, 2x2 cells per block
     # For a 128x128 image, this yields:
     #   (128/16 - 1) * (128/16 - 1) = 7 * 7 = 49 blocks
@@ -57,7 +74,7 @@ def extract_features(img_or_path):
         feature_vector=True
     )
     
-    # 5. Extract texture features using LBP (Local Binary Patterns)
+    # 7. Extract texture features using LBP (Local Binary Patterns)
     # P=8 (points), R=1 (radius)
     lbp = local_binary_pattern(img_equalized_uint8, P=8, R=1, method='uniform')
     
@@ -65,7 +82,7 @@ def extract_features(img_or_path):
     # Using np.histogram with bins from 0 to 10. Density=True returns probabilities.
     lbp_hist, _ = np.histogram(lbp.ravel(), bins=np.arange(0, 11), density=True)
     
-    # 6. Concatenate features into a unified feature vector (1568 + 10 = 1578 dimensions)
+    # 8. Concatenate features into a unified feature vector (1568 + 10 = 1578 dimensions)
     features = np.concatenate([hog_features, lbp_hist])
     
     return features
